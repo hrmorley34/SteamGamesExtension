@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "SteamGamesExtension (Package)": {
+      "commandName": "MsixPackage",
+      "doNotLaunchApp": true
+    },
+    "SteamGamesExtension (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
