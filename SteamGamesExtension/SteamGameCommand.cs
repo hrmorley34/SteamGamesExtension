@@ -14,22 +14,25 @@ namespace SteamGamesExtension;
 
 internal sealed partial class SteamGameCommand : InvokableCommand
 {
+    public string Title { get; set; }
     public string Uri { get; set; }
     public UInt32? AppId {  get; set; }
     public string? Subtitle { get; set; }
     public int? LastPlayedTime { get; set; }
 
-    public SteamGameCommand(string name, IconInfo icon, string uri, UInt32? appid = null)
+    public SteamGameCommand(string title, IconInfo icon, string uri, UInt32? appid = null)
     {
-        Name = name;
+        Name = "Launch";
+        Title = title;
         Icon = icon;
         Uri = uri;
         AppId = appid;
     }
 
-    public SteamGameCommand(string name, IconInfo icon, UInt32 id)
+    public SteamGameCommand(string title, IconInfo icon, UInt32 id)
     {
-        Name = name;
+        Name = "Launch";
+        Title = title;
         Icon = icon;
         Uri = $"steam://rungameid/{id}";
         AppId = id;
@@ -66,4 +69,6 @@ internal sealed partial class SteamGameCommand : InvokableCommand
         // Hides the Command Palette window, without changing the page that's open
         return CommandResult.Hide();
     }
+
+    public IListItem CreateListItem() => new ListItem(this) { Title = Title, Subtitle = Subtitle ?? "" };
 }

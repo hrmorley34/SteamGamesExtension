@@ -11,13 +11,13 @@
   <Identity
     Name="SteamGamesExtension"
     Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
-    Version="0.0.1.0" />
+    Version="0.0.2.0" />
   <!-- When you're ready to publish your extension, you'll need to change the
        Publisher= to match your own identity -->
 
   <Properties>
     <DisplayName>Steam Games Extension</DisplayName>
-    <PublisherDisplayName>hrmorley34</PublisherDisplayName>
+    <PublisherDisplayName>Henry Morley</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

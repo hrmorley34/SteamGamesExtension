@@ -18,7 +18,7 @@ internal sealed partial class SteamGamesExtensionPage : ListPage
         Icon = new(steamInstance.SteamExe + ",0");
         Title = "Steam Games: ? games found in ? libraries";
         Name = "Steam Games";
-        EmptyContent = new CommandItem(new NoOpCommand() { Name = "No games found." });
+        EmptyContent = new CommandItem(new NoOpCommand()) { Title = "No games found." };
     }
 
     (IEnumerable<SteamGameCommand>, string?) GetManifestCommands()
@@ -114,10 +114,10 @@ internal sealed partial class SteamGamesExtensionPage : ListPage
                 summaries.Add(summary);
         }
 
-        Title = summaries.Count <= 0 ? "No data found." : $"Steam games: " + String.Join("; ", summaries);
+        Title = summaries.Count <= 0 ? "No data found." : "Steam games: " + String.Join("; ", summaries);
         commands.Sort(new CommandSort());
         return commands
-            .Select(c => new ListItem(c) { Subtitle = c.Subtitle ?? "" })
+            .Select(c => c.CreateListItem())
             .ToArray();
     }
 }
