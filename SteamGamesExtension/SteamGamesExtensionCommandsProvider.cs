@@ -10,12 +10,10 @@ public partial class SteamGamesExtensionCommandsProvider : CommandProvider
 
     public SteamGamesExtensionCommandsProvider()
     {
-        var ep = new SteamGamesExtensionPage(new SteamInstance());
-        DisplayName = ep.Name;
-        Icon = ep.Icon;
-        _commands = [
-            new CommandItem(ep) { Subtitle = "Search for games installed through Steam" },
-        ];
+        DisplayName = "Steam Games Extension";
+        var ci = new SteamGamesCommandItem(new SteamInstance());
+        Icon = ci.Command.Icon;
+        _commands = [ci];
     }
 
     public override ICommandItem[] TopLevelCommands()

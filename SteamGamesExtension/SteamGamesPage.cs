@@ -8,11 +8,11 @@ using System.Linq;
 
 namespace SteamGamesExtension;
 
-internal sealed partial class SteamGamesExtensionPage : ListPage
+public sealed partial class SteamGamesPage : ListPage
 {
     SteamInstance SteamInstance { get; init; }
 
-    public SteamGamesExtensionPage(SteamInstance steamInstance)
+    public SteamGamesPage(SteamInstance steamInstance)
     {
         SteamInstance = steamInstance;
         Icon = new(steamInstance.SteamExe + ",0");
