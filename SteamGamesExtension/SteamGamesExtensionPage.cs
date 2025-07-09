@@ -21,7 +21,7 @@ internal sealed partial class SteamGamesExtensionPage : ListPage
         EmptyContent = new CommandItem(new NoOpCommand()) { Title = "No games found." };
     }
 
-    (IEnumerable<SteamGameCommand>, string?) GetManifestCommands()
+    (IEnumerable<SteamGameListItem>, string?) GetManifestCommands()
     {
         var libraries = SteamInstance.FindLibraries();
         if (libraries is null)
@@ -30,7 +30,7 @@ internal sealed partial class SteamGamesExtensionPage : ListPage
         var manifests = libraries.GetManifests().ToList();
 
         var commands = manifests
-            .Select(m => SteamGameCommand.FromManifest(m));
+            .Select(m => SteamGameListItem.FromManifest(m));
 
         var gameLocalData = SteamInstance.GetUserLocalConfig()
             ?.UserLocalConfigStore
@@ -41,7 +41,7 @@ internal sealed partial class SteamGamesExtensionPage : ListPage
         if (gameLocalData is not null)
             commands = commands.Select(cmd =>
             {
-                if (cmd.AppId is not null && gameLocalData.TryGetValue(cmd.AppId.Value, out var value))
+                if (gameLocalData.TryGetValue(cmd.AppId, out var value))
                     cmd.LastPlayedTime ??= value.LastPlayed;
                 return cmd;
             });
@@ -53,12 +53,12 @@ internal sealed partial class SteamGamesExtensionPage : ListPage
         return (commands, summary);
     }
 
-    (IEnumerable<SteamGameCommand>, string?) GetShortcutCommands()
+    (IEnumerable<SteamGameListItem>, string?) GetShortcutCommands()
     {
         var shortcuts = SteamInstance.GetUserShortcuts();
         if (shortcuts is null)
             return ([], null);
-        var commands = shortcuts.Select(m => SteamGameCommand.FromVDFEntry(m));
+        var commands = shortcuts.Select(m => SteamGameListItem.FromVDFEntry(m));
 
         var shortcutsCountStr = shortcuts.Length == 1 ? "1 non-steam game" : $"{shortcuts.Length} non-steam games";
         var summary = $"{shortcutsCountStr} found";
@@ -66,7 +66,7 @@ internal sealed partial class SteamGamesExtensionPage : ListPage
         return (commands, summary);
     }
 
-    class CommandSort : Comparer<SteamGameCommand>
+    class SteamGameListItemSort : Comparer<SteamGameListItem>
     {
         static int CompareNulls<T>(T? x, T? y, Func<T, T, int>? @default = null)
             where T:class
@@ -86,26 +86,26 @@ internal sealed partial class SteamGamesExtensionPage : ListPage
             else return @default is null ? 0 : @default(x.Value, y.Value);
         }
 
-        public override int Compare(SteamGameCommand? x, SteamGameCommand? y)
+        public override int Compare(SteamGameListItem? x, SteamGameListItem? y)
         {
             if (x is null || y is null) return CompareNulls(x, y);
             // Last played, newest to oldest
             var comp = CompareNulls(x.LastPlayedTime, y.LastPlayedTime, (xp, yp) => - xp.CompareTo(yp));
             if (comp == 0)
                 // Failing that, order alphabetically
-                comp = CompareNulls(x.Name, y.Name, (xp, yp) => String.Compare(xp, yp, StringComparison.OrdinalIgnoreCase));
+                comp = CompareNulls(x.Title, y.Title, (xp, yp) => String.Compare(xp, yp, StringComparison.OrdinalIgnoreCase));
             return comp;
         }
     }
 
     public override IListItem[] GetItems()
     {
-        var data = new List<(IEnumerable<SteamGameCommand>, string?)>() {
+        var data = new List<(IEnumerable<SteamGameListItem>, string?)>() {
             GetManifestCommands(),
             GetShortcutCommands(),
         };
 
-        List<SteamGameCommand> commands = [];
+        List<SteamGameListItem> commands = [];
         List<string> summaries = [];
         foreach ((var cmds, var summary) in data)
         {
@@ -115,9 +115,7 @@ internal sealed partial class SteamGamesExtensionPage : ListPage
         }
 
         Title = summaries.Count <= 0 ? "No data found." : "Steam games: " + String.Join("; ", summaries);
-        commands.Sort(new CommandSort());
-        return commands
-            .Select(c => c.CreateListItem())
-            .ToArray();
+        commands.Sort(new SteamGameListItemSort());
+        return commands.ToArray();
     }
 }
