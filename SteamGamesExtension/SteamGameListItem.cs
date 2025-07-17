@@ -1,12 +1,7 @@
 ﻿using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
-using SteamGamesApi;
+using SteamGamesApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VDFParser.Models;
 using Windows.System;
 
 namespace SteamGamesExtension;
@@ -74,7 +69,7 @@ public sealed partial class SteamGameListItem : ListItem
         };
     }
 
-    public static SteamGameListItem FromVDFEntry(VDFEntry vdfEntry)
+    public static SteamGameListItem FromVDFEntry(Shortcut vdfEntry)
     {
         return new SteamGameListItem(
             vdfEntry.AppName,
@@ -87,4 +82,3 @@ public sealed partial class SteamGameListItem : ListItem
         };
     }
 }
-

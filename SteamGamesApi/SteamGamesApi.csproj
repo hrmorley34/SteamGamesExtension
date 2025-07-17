@@ -27,12 +27,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gameloop.Vdf" />
-    <PackageReference Include="Gameloop.Vdf.JsonConverter" />
-    <PackageReference Include="Newtonsoft.Json" />
-    <PackageReference Include="System.Net.Http" />
-    <PackageReference Include="System.Text.RegularExpressions" />
-    <PackageReference Include="VDFParser.dotnet" />
+    <PackageReference Include="ValveKeyValue" />
   </ItemGroup>
 
 </Project>

@@ -1,13 +1,5 @@
-﻿using Gameloop.Vdf;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VDFParser;
-using VDFParser.Models;
+﻿using Microsoft.Win32;
+using SteamGamesApi.Models;
 
 namespace SteamGamesApi
 {
@@ -78,7 +70,7 @@ namespace SteamGamesApi
             }
         }
 
-        public VDFEntry[]? GetUserShortcuts(int? user = null)
+        public ShortcutsVDF? GetUserShortcuts(int? user = null)
         {
             var userDir = GetUserDir(user);
             if (userDir is null) return null;
@@ -86,7 +78,7 @@ namespace SteamGamesApi
 
             try
             {
-                return VDFParser.VDFParser.Parse(shortcutsFile);
+                return ShortcutsVDF.FromPath(shortcutsFile);
             }
             catch (IOException e)
             {

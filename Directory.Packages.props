@@ -3,22 +3,19 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Gameloop.Vdf" Version="0.6.2" />
-    <PackageVersion Include="Gameloop.Vdf.JsonConverter" Version="0.2.1" />
     <PackageVersion Include="Microsoft.CommandPalette.Extensions" Version="0.2.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0-preview.24508.2" />
-    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3240.44" />
+    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3351.48" />
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.2.46-beta" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.7.250513003" />
-    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageVersion Include="Shmuelie.WinRTServer" Version="2.1.1" />
+    <PackageVersion Include="Shmuelie.WinRTServer" Version="2.2.1" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
     <PackageVersion Include="System.Net.Http" Version="4.3.4" />
     <PackageVersion Include="System.Private.Uri" Version="4.3.2" />
     <PackageVersion Include="System.Text.Json" Version="9.0.5" />
     <PackageVersion Include="System.Text.RegularExpressions" Version="4.3.1" />
-    <PackageVersion Include="VDFParser.dotnet" Version="1.1.0" />
+    <PackageVersion Include="ValveKeyValue" Version="0.13.1.398" />
   </ItemGroup>
 </Project>

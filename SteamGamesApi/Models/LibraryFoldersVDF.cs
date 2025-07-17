@@ -1,15 +1,11 @@
-﻿using Gameloop.Vdf;
-using Gameloop.Vdf.JsonConverter;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Diagnostics.CodeAnalysis;
+﻿using ValveKeyValue;
 
-namespace SteamGamesApi
+namespace SteamGamesApi.Models
 {
     public class LibraryFolder
     {
-        public required string path { get; set; }
-        public required string label { get; set; }
+        public required string path { get; set; } = "";
+        public required string label { get; set; } = "";
         // public UInt64 contentid;
         // public UInt64 totalsize;
         // public UInt64 update_clean_bytes_tally;
@@ -48,22 +44,16 @@ namespace SteamGamesApi
 
     public class LibraryFoldersVDF
     {
-        [JsonConstructor]
-        public LibraryFoldersVDF() { }
-
         public required Dictionary<int, LibraryFolder> libraryfolders { get; set; }
 
-        [DynamicDependency(nameof(LibraryFoldersVDF) + "()")]
-        [DynamicDependency(nameof(LibraryFolder) + "()", typeof(LibraryFolder))]
         public static LibraryFoldersVDF? FromPath(string path)
         {
             try
             {
-                using StreamReader reader = File.OpenText(path);
-                var deserializer = new JsonSerializer() { MissingMemberHandling = MissingMemberHandling.Ignore };
-                return
-                    new JObject([VdfConvert.Deserialize(reader).ToJson()])
-                    .ToObject<LibraryFoldersVDF>(deserializer);
+                using var stream = File.OpenRead(path);
+                var kv = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);
+                var lf = kv.Deserialize<Dictionary<int, LibraryFolder>>(stream);
+                return new() { libraryfolders = lf };
             }
             catch (IOException e)
             {

@@ -55,12 +55,12 @@ public sealed partial class SteamGamesPage : ListPage
 
     (IEnumerable<SteamGameListItem>, string?) GetShortcutCommands()
     {
-        var shortcuts = SteamInstance.GetUserShortcuts();
+        var shortcuts = SteamInstance.GetUserShortcuts()?.shortcuts?.Values;
         if (shortcuts is null)
             return ([], null);
         var commands = shortcuts.Select(m => SteamGameListItem.FromVDFEntry(m));
 
-        var shortcutsCountStr = shortcuts.Length == 1 ? "1 non-steam game" : $"{shortcuts.Length} non-steam games";
+        var shortcutsCountStr = shortcuts.Count == 1 ? "1 non-steam game" : $"{shortcuts.Count} non-steam games";
         var summary = $"{shortcutsCountStr} found";
 
         return (commands, summary);
